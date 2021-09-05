@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <!-- CSS file -->
+    <link href="../static/style.css" rel="stylesheet" type="text/css">
+    <title>Checkout Concluded</title>
+
+</head>
+
+<body>
+
+    <p>
+        State of your order:
+        {% if(order_state) %}
+            Settled <br>
+            Your order has been settled and it will be shipped soon!
+        {% else %}
+            Pending
+        {% endif %}
+    </p>
+
+</body>
+
+</html>

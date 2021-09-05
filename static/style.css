@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align-all: left;
+}
+
+#articles_table {
+    display: table;
+    border-collapse: collapse;
+    width: fit-content;
+}
+
+#articles_table th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+#articles_table td {
+  border: 1px solid #dddddd;
+  text-align: right;
+  padding: 8px;
+}

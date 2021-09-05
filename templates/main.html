@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <!-- CSS file -->
+    <link href="../static/style.css" rel="stylesheet" type="text/css">
+
+    <title>Order Checkout</title>
+
+    <script>
+
+        function complete_purchase() {
+            // Disable purchase button
+            document.getElementById('purchase_btn').disabled = true;
+            // Print purchase message
+            document.getElementById('purchase_msg').innerHTML = 'Purchasing...';
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <div>
+        <!-- Print user information -->
+        <p>
+            This is your chart, {{ user.name }} {{ user.surname }}.<br>
+            Order number: {{ order_id }}<br>
+            List of articles:
+        </p>
+
+        <!-- Articles in the current order -->
+        <table id="articles_table">
+
+            <!-- Table header -->
+            <tr>
+                <th>Article</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+
+            {% for record in cart %}
+                <tr id="row_{{ record.article_id }}">
+
+                    <!-- Article info -->
+                    <td>{{ record.article_name }}</td>
+                    <td>€ {{ record.price }}</td>
+                    <td>
+                        <!-- Quantity form -->
+                        <form id="qnt_{{ record.article_id }}_form">
+                            <input id="qnt_{{ record.article_id }}" type="number" value="{{ record.quantity }}" min="1"/>
+                            <!--
+                                Error: quantity=record.quantity
+                                Find a way to update url with the above numerical input current value
+                            -->
+                            <a href="{{ url_for('update_quantity', article_id=record.article_id, quantity=record.quantity) }}">
+                                <input id="qnt_{{ record.article_id }}_btn" type="submit" value="Update"
+                                       onclick="document.getElementById('qnt_' + {{ record.article_id }} + '_btn').disabled = true"/>
+                            </a>
+                        </form>
+                    </td>
+
+                    <td>
+                        <!-- Remove article button -->
+                        <form id="rm_row_{{ record.article_id }}_form">
+                            <a href="{{ url_for('remove_article', article_id=record.article_id) }}">
+                                <input id="rm_{{ record.article_id }}_btn" type="submit" value="Remove"
+                                       onclick="document.getElementById('rm_' + {{ record.article_id }} + '_btn').disabled = true"/>
+                            </a>
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+        </table>
+
+        <!-- Total cost of the order -->
+        <p>Total: € {{ total_cost }}</p>
+
+        <!-- Button to purchase -->
+        <form id="purchase_form">
+            <a href="{{ url_for('complete_checkout') }}">
+                <input id="purchase_btn" class="btn btn-default" type="submit" value="Purchase"
+                    onclick="complete_purchase()"/>
+            </a>
+        </form>
+
+        <p id="purchase_msg"></p>
+
+        <p id="error_msg" style="color:red;">{{ error }}</p>
+
+    </div>
+
+</body>
+
+</html>
